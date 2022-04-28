@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- Launch the node to visualize the smach_viewer FSM -->
+	<node name="view_fsm" pkg="smach_viewer" type ="smach_viewer.py" />
+	
+	<!-- Launch the move_arm service node -->
+	<node name="move_arm" pkg="exp_assignment3" type ="move_arm.py" output="screen" />
+	
+	<!-- Launch the move_arm service node -->
+	<node name="clueso_FSM" pkg="exp_assignment3" type ="cluedo_investigation_FSM.py" output="screen" />
+
+
+</launch>
