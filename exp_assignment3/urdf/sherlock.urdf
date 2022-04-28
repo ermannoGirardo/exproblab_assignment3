@@ -121,7 +121,7 @@
                 </noise>
             </ray>
             <plugin filename="libgazebo_ros_laser.so" name="gazebo_ros_head_hokuyo_controller">
-                <topicName>m2wr/laser/scan</topicName>
+                <topicName>scan</topicName>
                 <frameName>laser</frameName>
             </plugin>
         </sensor>
@@ -140,8 +140,8 @@
             <camera name="head">
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
-                    <width>800</width>
-                    <height>800</height>
+                    <width>2000</width>
+                    <height>2000</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
@@ -260,7 +260,7 @@
         </visual>
     </link>
     <joint name="joint_right_wheel" type="continuous">
-        <origin rpy="0 0 0" xyz="-0.05 0.15 0" />
+        <origin rpy="0 0 0" xyz="-0.05 -0.15 0" />
         <child link="link_right_wheel" />
         <parent link="base_link" />
         <axis rpy="0 0 0" xyz="0 1 0" />
@@ -268,7 +268,7 @@
         <joint_properties damping="1.0" friction="1.0" />
     </joint>
     <joint name="joint_left_wheel" type="continuous">
-        <origin rpy="0 0 0" xyz="-0.05 -0.15 0" />
+        <origin rpy="0 0 0" xyz="-0.05 0.15 0" />
         <child link="link_left_wheel" />
         <parent link="base_link" />
         <axis rpy="0 0 0" xyz="0 1 0" />

@@ -10,8 +10,22 @@ project(exp_assignment3)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  erl2
+  std_msgs
+  urdf
+  sensor_msgs
+  moveit_ros_planning_interface
+  visualization_msgs
+  gazebo_msgs
   message_generation
+  turtlesim
+  tf
+  moveit_commander
+  moveit_msgs
+  std_msgs
+  nav_msgs
+  move_base_msgs
+  geometry_msgs
+
 )
 
 ## System dependencies are found with CMake's conventions
@@ -162,6 +176,7 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
  catkin_install_python(PROGRAMS
    scripts/move_arm.py
+   scripts/cluedo_investigation_FSM.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
