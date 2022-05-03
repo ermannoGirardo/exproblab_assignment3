@@ -18,7 +18,7 @@
 # 
 #   Subscribers : <BR>
 #        /odom
-#
+#		  /acquired_hint
 #        
 #        
 #   Publishers : <BR>
@@ -76,13 +76,39 @@ rooms = [room1,room2,room3,room4,room5,room6]
 room_counter = 0
 cmd_vel_publisher = None
 all_room_visited = False
+hypotheses = []
+hint_gen_client = None
+number_acquired_hint = 0
+previous_marker = None
+first_hint = True
 
+########Hypotheses class##########################
+																									   
+class Hypotheses:																		   
+    """ 																							   
+    This class is basically the ontology for the investigation.
+    In particular this class contains all the hypotheses collected
+    by Sherlock during the game. 
+    """
+    
+    def __init__(self):
+        """ 
+        Initialization
+        """
+        self.killer = []
+        self.killer_weapon = []
+        self.killer_location = []
+        self.ID=-1
+
+##############################################
+
+######################FUNCTIONS#################
 
 def euler_dist(point_1,point_2):
 	"""
 	This function compute the euler distance between two points
 	"""
-	distance = math.sqrt(point_1**2 + point_2**2)
+	distance = math.sqrt((point_2.x - point_1.x)**2 + (point_2.y - point_1.y) **2)
 	return distance
 	
 
@@ -112,11 +138,82 @@ def odom_clbk(odom_msg):
 	"""
 	global sherlock_pos
 	sherlock_pos = odom_msg.pose.pose.position
+	
+def acquired_hint_clbk(markerId):
+	"""
+	This function manages the marker id, once it is received.
+	In particular the markerID is passed to the '/oracle_hint' service,
+	that reply with the hint structure filled (ID, key and value).
+	Once the data of the hint are available update the ontology.
+	"""
+	global hypotheses, hint_gen_client, previous_marker, first_hint
+	response = hint_gen_client(markerId.data)
+	acquired_hint = response.oracle_hint
+	is_double=False
+	j=0
+	#Check if the hint value is valid
+	if(acquired_hint.value!='-1'):
+		#Check the type of the hint
+		if(acquired_hint.key=='who'):
+			#Run on all the hypotheses
+			while ((j<len(hypotheses[acquired_hint.ID].killer)) and (is_double==False)):
+				#Check if the hint is already perceived
+				if(acquired_hint.value==hypotheses[acquired_hint.ID].killer[j]):
+					#If the hint is already perceived remove it
+					hypotheses[acquired_hint.ID].killer.remove(acquired_hint.value)
+					#The hint is already perceived
+					is_double=True
+				#update the counter
+				j = j + 1
+			#Append the new hint
+			hypotheses[acquired_hint.ID].killer.append(acquired_hint.value)
 
+		is_double=False
+		j=0   
+		#Check the type of the hint
+		if(acquired_hint.key=='where'):
+			#Run on all the hypothesis
+			while ((j<len(hypotheses[acquired_hint.ID].killer_location))and (is_double==False)):
+				#Check if the hint is already perceived
+				if(acquired_hint.value==hypotheses[acquired_hint.ID].killer_location[j]):
+					hypotheses[acquired_hint.ID].killer_location.remove(acquired_hint.value)
+					#The hint is already perceived
+					is_double=True
+				j = j + 1
+			hypotheses[acquired_hint.ID].killer_location.append(acquired_hint.value)
 
-##SMACH FINITE STATE MACHINE
+		is_double=False
+		j=0     
+		#Check the type of the hint
+		if(acquired_hint.key=='what'):
+			#Run on all the hypothesis
+			while ((j<len(hypotheses[acquired_hint.ID].killer_weapon))and (is_double==False)):
+				#Check if the hint is already perceived
+				if(acquired_hint.value==hypotheses[acquired_hint.ID].killer_weapon[j]):
+					hypotheses[acquired_hint.ID].killer_weapon.remove(acquired_hint.value)
+					#The hint is already perceived
+					is_double=True
+				j = j + 1
+			hypotheses[acquired_hint.ID].killer_weapon.append(acquired_hint.value)
 
-#INITIALIZATION STATE
+		# If is the fist marker acquired
+		if first_hint:
+			first_hint = False
+			print("New hint acquired from Marker:" + str(markerId.data))
+			print("ID:" + str(acquired_hint.ID) + " Key:" + str(acquired_hint.key) + "Value:" + str(acquired_hint.value))
+			previous_marker = markerId.data
+			
+		#From the second hint forward check that the actual hint ID is different from the previous one
+		if markerId.data != previous_marker :
+			print("New hint acquired from Marker:" + str(markerId.data))
+			print("ID:" + str(acquired_hint.ID) + " Key:" + str(acquired_hint.key) + "Value:" + str(acquired_hint.value))
+			previous_marker = markerId.data
+
+##################################################
+
+#############SMACH FINITE STATE MACHINE#############
+
+####INITIALIZATION STATE####
 
 class Init(smach.State):
 	def __init__(self):
@@ -128,8 +225,8 @@ class Init(smach.State):
 		
 	def execute(self,userdata):
 		print("The investigation is starting!")
-		print("Extend the arm to move to the first room")
-		move_sherlock_arm(-1.57,0,0,0,0)
+		print("[MANIPULATION] Extend the arm to move to the first room...")
+		move_sherlock_arm(-math.pi/2,0,0,0,0)
 		return 'initialization'
 
 
@@ -149,7 +246,7 @@ class Go_To_Room(smach.State):
 	def execute(self,userdata):
 		global sherlock_pos, cmd_vel_publisher, all_room_visited, room_counter
 		room_number = room_counter + 1
-		print('I am going to room:' + str(room_number))
+		print('[NAVIGATION] I am going to room:' + str(room_number) + "...")
 		move_base_client = actionlib.SimpleActionClient('move_base', move_base_msgs.msg.MoveBaseAction)
 
 		room_pos=move_base_msgs.msg.MoveBaseActionGoal()
@@ -163,10 +260,14 @@ class Go_To_Room(smach.State):
 		move_base_client.send_goal(room_pos.goal)
 		reached = False
 		while reached == False:
-			distance = euler_dist(sherlock_pos.x - sel_room.x, sherlock_pos.y - sel_room.y)
-			if distance <= .01:
+			distance = euler_dist(sel_room,sherlock_pos)
+			print("Distanza rimasta: " + str(distance))
+			if distance <= .15:
 				reached = True
 				print("I have reached room: " + str(room_counter	+ 1))
+				#since probably sherlock has no  perfectly reached the room
+				#cancel the goal
+				move_base_client.cancel_all_goals()
 				#Stop Sherlock
 				velocity = Twist()
 				velocity.linear.x = 0
@@ -175,9 +276,8 @@ class Go_To_Room(smach.State):
 				time.sleep(.5)
 			time.sleep(.1)
 		
-		#since probably sherlock has no  perfectly reached the room
-		#cancel the goal
-		move_base_client.cancel_all_goals()
+		
+		######UPDATE THE ROOM COUNTER########
 		
 		#check if all rooms have been visited
 		#if no update counter
@@ -193,21 +293,58 @@ class Go_To_Room(smach.State):
 			while(room_counter == are_in_room):
 				#randomly choose a room_counter 
 				room_counter = random.randint(0,5)
+		########################################
+		
 				
 		return 'search_hypotheses'
-			 
+			
+##################################################### 
 		
 		
 		
 		
-#ACQUIRE HINTS STATE
-#class Acquire_Hints(smach.State):
-#	def __init__(self):
-#		"""
+##################ACQUIRE HINTS STATE#################
+
+class Acquire_Hints(smach.State):
+	def __init__(self):
+		"""
+		Once arrived into a room Sherlock starts moving its arm
+		in order to acquire hints, thanks to markers into the scene.
+		In order to move the arm, valid poses are declared and calling
+		the service 'move_arm_service' and thanks to MoveIt! it is possible
+		to solve manipulation task planning in Joints Space.
+		In order to acquire 
+		Once an hypothesis is acquired it is added into the custom ontology, 
+		thanks to the Hypotheses class.
+		The validity and completeness of the acquired hypotheses will be 
+		"""
+		smach.State.__init__(self, outcomes=['acquiring_hints'])
+	def execute(self,userdata):
+		global hypotheses
+		print("[MANIPULATION] Acquiring Hints ...")
 		
-#		"""
-	#def execute(self,userdata):
-		
+		###### A Series of poses now is specified to scan the environment #####
+		###FIRST SCAN THE DOWN AREA######
+		move_sherlock_arm(-math.pi/2,0,-3,3,0)
+		print("[MANIPULATION] First Pose Completed")
+		move_sherlock_arm(-math.pi,0,-3,3,0)
+		print("[MANIPULATION] Second Pose Completed")
+		move_sherlock_arm(-math.pi/2,0,-3,3,0)
+		print("[MANIPULATION] Third Pose Completed")
+		move_sherlock_arm(0,0,-3,3,0)
+		print("[MANIPULATION] Fourth Pose Completed")
+		move_sherlock_arm(math.pi/2,0,-3,3,0)
+		print("[MANIPULATION] Fifth Pose Completed")
+		###THEN EXTEND THE ARM AND SCAN THE TOP AREA###
+		move_sherlock_arm(-math.pi,0,0,0,-math.pi/4)
+		print("[MANIPULATION] Sixth Pose Completed")
+		move_sherlock_arm(-math.pi/2,0,0,0,-math.pi/4)
+		print("[MANIPULATION] Seventh Pose Completed")
+		move_sherlock_arm(0,0,0,0,-math.pi/4)
+		print("[MANIPULATION] Eighth Pose Completed")
+		move_sherlock_arm(math.pi/2,0,0,0,-math.pi/4)
+		print("[MANIPULATION] Nineth Pose Completed")
+		return 'acquiring_hints'
 		
 #CHECK HYPOTHESIS STATE
 #class Check_Hypothesis(smach.State):
@@ -238,14 +375,17 @@ def main():
 	Create a client for move the arm's joints
 	Create the SMACH state machine and define the outcomes of FSM as CASE_SOLVED
 	"""
-	global move_arm_client
+	global move_arm_client, cmd_vel_publisher, hypotheses, hint_gen_client
 	rospy.init_node('cluedo_investigation_FSM')
 	
 	##Check the availability of services
 	print("Wait for services")
 	rospy.wait_for_service("oracle_solution")
+	print("Oracle solution service online")
 	rospy.wait_for_service("oracle_hint")
+	print("Oracle Hint Online")
 	rospy.wait_for_service("move_arm_service")
+	print("Move Arm Service Online")
 	
 	print("Services Ready")
 	
@@ -259,6 +399,8 @@ def main():
 	##Create subscribers
 	print("Declare all subscribers")
 	odom_sub = rospy.Subscriber('/odom',Odometry,odom_clbk)
+	hint_sub = rospy.Subscriber('/acquired_hint',Int32, acquired_hint_clbk)
+	
 	
 	
 	##Publisher
@@ -266,6 +408,13 @@ def main():
 	cmd_vel_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 	
 
+	#Initialize all the hypotheses of the game
+	#In particular the number of possible hp is 6,
+	#differentiated by the ID
+	for i in range(6):
+		hypotheses_constructor = Hypotheses()
+		hypotheses_constructor.ID = i
+		hypotheses.append(hypotheses_constructor)
 
 	
 	##Create a SMACH state machine
@@ -282,10 +431,10 @@ def main():
 								transitions={'initialization':'GO_TO_ROOM'})
 		
 		smach.StateMachine.add('GO_TO_ROOM', Go_To_Room(), 
-								transitions={'search_hypotheses':'CASE_SOLVED'}) #CAMBIARE
+								transitions={'search_hypotheses':'ACQUIRE_HINTS'}) 
 
-		#smach.StateMachine.add('ACQUIRE_HINTS', Acquire_Hints(), 
-			#					transitions={'acquiring_hints':'CHECK_HYPOTHESIS'})
+		smach.StateMachine.add('ACQUIRE_HINTS', Acquire_Hints(), 
+								transitions={'acquiring_hints':'CASE_SOLVED'})
 
 		#smach.StateMachine.add('CHECK_HYPOTHESIS', Check_Hypothesis(), 
 			#					transitions={'new_hypothesis':'TELL_HYPOTHESIS', 

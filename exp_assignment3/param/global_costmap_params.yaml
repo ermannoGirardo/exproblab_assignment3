@@ -3,10 +3,10 @@ global_costmap:
    robot_base_frame: base_link
    update_frequency: 1.0
    publish_frequency: 0.5
-   static_map: false
+   static_map: true
    transform_tolerance: 1.0
-   width: 40
-   height: 40
+   width: 35
+   height: 35
    origin_x: -20.0 
    origin_y: -20.0
    inflation_layer:

@@ -36,9 +36,15 @@ bool oracleService(erl2::Oracle::Request &req, erl2::Oracle::Response &res)
 		return true;
 	}
 
+//modify in order to publish marker in the correct range
 bool oracleCallback(exp_assignment3::Marker::Request &req, exp_assignment3::Marker::Response &res)
 {
-	res.oracle_hint = oracle_msgs[req.markerId-11];
+	if( (req.markerId>10) && (req.markerId<41)){
+		 res.oracle_hint = oracle_msgs[req.markerId-11];
+	}
+	else{
+		res.oracle_hint.ID = -1;
+	}
 	return true;
 } 
 
