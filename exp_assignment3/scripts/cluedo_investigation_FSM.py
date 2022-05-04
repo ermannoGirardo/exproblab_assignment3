@@ -73,7 +73,7 @@ room6 = Point()
 room6.x = 5
 room6.y = 1
 rooms = [room1,room2,room3,room4,room5,room6]
-room_counter = 0
+room_counter = 1
 cmd_vel_publisher = None
 all_room_visited = False
 hypotheses = []
@@ -147,6 +147,8 @@ def acquired_hint_clbk(markerId):
 	Once the data of the hint are available update the ontology.
 	"""
 	global hypotheses, hint_gen_client, previous_marker, first_hint
+	#Call the oracle passing the ID of the marker
+	#In order to obtain the hint associated
 	response = hint_gen_client(markerId.data)
 	acquired_hint = response.oracle_hint
 	is_double=False

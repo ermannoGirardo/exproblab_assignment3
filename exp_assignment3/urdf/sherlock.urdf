@@ -140,13 +140,13 @@
             <camera name="head">
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
-                    <width>800</width>
-                    <height>800</height>
+                    <width>2500</width>
+                    <height>2500</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
                     <near>0.02</near>
-                    <far>300</far>
+                    <far>350</far>
                 </clip>
                 <noise>
                     <type>gaussian</type>
@@ -474,7 +474,7 @@
     </link>
     <joint name="camera_joint" type="fixed">
         <axis xyz="0 1 0" />
-        <origin rpy="0 0 0" xyz="0 0 0.05" />
+        <origin rpy="0 0 1.57" xyz="0 0 0.05" />
         <parent link="cluedo_link" />
         <child link="camera_link" />
     </joint>
