@@ -52,7 +52,7 @@ The assignment is composed by three main packages:
 *  **marker_publisher** is the node demanded to manage the input video acquired by Sherlock cam, in order to detect Markers and thanks to ArUco dictionary ( ARUCO_MIP_36h12) is possible to trace its ID. A publisher was added to shared the ID.
 
 ### FSM
-* **cluedo_investigation_FSM** is the core of the architecture. This node menage all the investigation behaviour, initialization of the investigation, menagement of all the acquired hypotheses (ontology), Sherlock navigation and manipulation to scan the environment
+* **cluedo_investigation_FSM** is the core of the architecture. This node menages all the investigation behaviour, initialization of the investigation, menagement of all the acquired hypotheses (ontology), Sherlock navigation and manipulation to scan the environment
 
 ### Launch Files
 * sherlock_assignment3/launch/**demo_gazebo.launch** is demanded to execute all the moveit plugins and controllers for the arm and spawns Sherlock into the predefined Gazebo scene. It also executes the **simulation.launch** file already developed to execute the **simulation.cpp** file already developed to source the Oracle node.
