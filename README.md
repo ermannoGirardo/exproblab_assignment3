@@ -79,12 +79,26 @@ catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 roslaunch sherlock_assignment3 demo_gazebo.launch
 ```
 ```
-roslaunch exp_assignment3 
-```
-```
 roslaunch exp_assignment3 services.launch
 ```
-!!! Launch the files in this specific sequence!!! If you don't want to see all the warning messages you can add **2</dev/null** after each command.
+
+### Into your ws, go to the py file and mark it as exe
+```
+roscd exp_assignment3
+```
+
+```
+chmod +x cluedo_investigation_FSM.py
+```
+
+### Wait a moment and then start the investigation
+```
+rosrun exp_assignment3 cluedo_investigation_FSM.py
+```
+
+
+_!!! Launch the files in this specific sequence!!!_
+If you don't want to see all the warning messages you can add **2</dev/null** after each command.
 
 * If you want there is also a bash file that execute all for you.
 So, first you have to install gnome terminal, if you haven't yet:
