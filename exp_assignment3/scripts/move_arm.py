@@ -5,6 +5,7 @@
 #   \brief provide a service to move the robot arm 
 #   \author Ermanno Girardo
 #   \version 1.0
+#   \date 5/05/2022
 #
 #
 #   Services: <BR>
@@ -13,7 +14,7 @@
 # Description:    
 # 
 # Thanks to MoveIt! it is possible to move the arm in an easy way.
-# In particualar in this case the motion is guaranteed by FK setting manually the arm's joints values
+# In particular in this case the motion is guaranteed by FK setting manually the arm's joints values
 #
 
 import sys

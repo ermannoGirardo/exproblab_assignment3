@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 ## @package exp_assignment3
-#   \file cluedo_investigation.py
+#   \file cluedo_investigation_FSM.py
 #   \brief This node provides the finite state machine
 #   \author Ermanno Girardo
 #   \version 1.0
-#   \date 25/4/2022
+#   \date 5/5/2022
 #
 #   \details
 #
@@ -28,8 +28,16 @@
 #        /MoveBaseAction
 #
 #
-# Description:    
-# 
+# Description: 
+#   
+# This node is the core of the architecture. It is based on a smach FSM that menage all behaviour of the cluedo investigation.
+# In particular it first initializes the investigation, extending Sherlock's arm thanks to move arm service.
+# Thanks to move base action and SLAM_GMAPPING it menages Sherlock navigation between rooms.
+# Ad Hoc class for acquiring hints and manage the hypotheses is used.
+# This node also takes the ID of detected marker and send it to the oracle that will respond with an hint message.
+# Once an hypothesis is completed and consistent Sherlock has to go in the centre of the arena in order to tell the
+# acquired hypothesis. If the hypothesis is the true one the investigation is finished otherwise Sherlock come back to travel
+# between rooms. 
 #
 #  
 
@@ -73,32 +81,35 @@ room6 = Point()
 room6.x = 5
 room6.y = 1
 rooms = [room1,room2,room3,room4,room5,room6]
-room_counter = 1
+room_counter = 0
+centre_arena = Point()
+centre_arena.x = 0
+centre_arena.y = -1
 cmd_vel_publisher = None
 all_room_visited = False
-hypotheses = []
 hint_gen_client = None
+oracle_solution_client = None
 number_acquired_hint = 0
 previous_marker = None
 first_hint = True
+hypotheses = []
+already_acquired_hp= [False,False,False,False,False,False]
+complete_consistent_hp =     [False,False,False,False,False,False]
 
 ########Hypotheses class##########################
 																									   
 class Hypotheses:																		   
-    """ 																							   
-    This class is basically the ontology for the investigation.
-    In particular this class contains all the hypotheses collected
-    by Sherlock during the game. 
-    """
-    
-    def __init__(self):
-        """ 
-        Initialization
-        """
-        self.killer = []
-        self.killer_weapon = []
-        self.killer_location = []
-        self.ID=-1
+	""" 																							   
+	This class is basically the ontology for the investigation.
+	In particular this class contains all the hypotheses collected
+	by Sherlock during the game. 
+	"""
+	def __init__(self):
+		#Class initialization      
+		self.killer = []
+		self.killer_weapon = []
+		self.killer_location = []
+		self.ID=-1
 
 ##############################################
 
@@ -201,16 +212,18 @@ def acquired_hint_clbk(markerId):
 		# If is the fist marker acquired
 		if first_hint:
 			first_hint = False
-			print("New hint acquired from Marker:" + str(markerId.data))
-			print("ID:" + str(acquired_hint.ID) + " Key:" + str(acquired_hint.key) + "Value:" + str(acquired_hint.value))
+			print("First hint acquired from Marker:" + str(markerId.data))
+			print("ID:" + str(acquired_hint.ID) + " Key:" + str(acquired_hint.key) + " Value:" + str(acquired_hint.value))
 			previous_marker = markerId.data
 			
 		#From the second hint forward check that the actual hint ID is different from the previous one
-		if markerId.data != previous_marker :
+		if ((markerId.data != previous_marker) and (not first_hint)):
 			print("New hint acquired from Marker:" + str(markerId.data))
-			print("ID:" + str(acquired_hint.ID) + " Key:" + str(acquired_hint.key) + "Value:" + str(acquired_hint.value))
+			print("ID:" + str(acquired_hint.ID) + " Key:" + str(acquired_hint.key) + " Value:" + str(acquired_hint.value))
 			previous_marker = markerId.data
 
+	else:
+		print("Marker Detected but I cannot see very well!")
 ##################################################
 
 #############SMACH FINITE STATE MACHINE#############
@@ -218,11 +231,12 @@ def acquired_hint_clbk(markerId):
 ####INITIALIZATION STATE####
 
 class Init(smach.State):
+	"""
+	Initialize the investigation
+	In particular this state extend Sherlock Arm
+	"""
 	def __init__(self):
-		"""
-		Initialize the investigation
-		In particular this state extend Sherlock Arm
-		"""
+		#Initialize smach state declaring outcomes
 		smach.State.__init__(self, outcomes=['initialization'])
 		
 	def execute(self,userdata):
@@ -235,14 +249,15 @@ class Init(smach.State):
 
 #GO TO ROOM STATE
 class Go_To_Room(smach.State):
+	"""
+	State in wich Sherlock navigate in the environment
+	In particular first Sherlock visits all the six rooms in order
+	Then after this phase the one room is selected randomly
+	checking of course that the selected one is not the room 
+	in wich Sherlock is actually.
+	"""
 	def __init__(self):
-		"""
-		State in wich Sherlock navigate in the environment
-		In particular first Sherlock visits all the six rooms in order
-		Then after this phase the one room is selected randomly
-		checking of course that the selected one is not the room 
-		in wich Sherlock is actually.
-		"""
+		#Initialize smach state declaring outcomes
 		smach.State.__init__(self, outcomes=['search_hypotheses'])
 		
 	def execute(self,userdata):
@@ -263,7 +278,6 @@ class Go_To_Room(smach.State):
 		reached = False
 		while reached == False:
 			distance = euler_dist(sel_room,sherlock_pos)
-			print("Distanza rimasta: " + str(distance))
 			if distance <= .15:
 				reached = True
 				print("I have reached room: " + str(room_counter	+ 1))
@@ -308,63 +322,136 @@ class Go_To_Room(smach.State):
 ##################ACQUIRE HINTS STATE#################
 
 class Acquire_Hints(smach.State):
+	"""
+	Once arrived into a room Sherlock starts moving its arm
+	in order to acquire hints, thanks to markers into the scene.
+	In order to move the arm, valid poses are declared and calling
+	the service 'move_arm_service' and thanks to MoveIt! it is possible
+	to solve manipulation task planning in Joints Space.
+	In order to acquire 
+	Once an hypothesis is acquired it is added into the custom ontology, 
+	thanks to the Hypotheses class.
+	The validity and completeness of the acquired hypotheses will be 
+	"""
 	def __init__(self):
-		"""
-		Once arrived into a room Sherlock starts moving its arm
-		in order to acquire hints, thanks to markers into the scene.
-		In order to move the arm, valid poses are declared and calling
-		the service 'move_arm_service' and thanks to MoveIt! it is possible
-		to solve manipulation task planning in Joints Space.
-		In order to acquire 
-		Once an hypothesis is acquired it is added into the custom ontology, 
-		thanks to the Hypotheses class.
-		The validity and completeness of the acquired hypotheses will be 
-		"""
-		smach.State.__init__(self, outcomes=['acquiring_hints'])
+		#Initialize smach state declaring outcomes
+		smach.State.__init__(self, outcomes=['check_hp'])
 	def execute(self,userdata):
 		global hypotheses
 		print("[MANIPULATION] Acquiring Hints ...")
 		
 		###### A Series of poses now is specified to scan the environment #####
 		###FIRST SCAN THE DOWN AREA######
-		move_sherlock_arm(-math.pi/2,0,-3,3,0)
-		print("[MANIPULATION] First Pose Completed")
-		move_sherlock_arm(-math.pi,0,-3,3,0)
-		print("[MANIPULATION] Second Pose Completed")
-		move_sherlock_arm(-math.pi/2,0,-3,3,0)
-		print("[MANIPULATION] Third Pose Completed")
 		move_sherlock_arm(0,0,-3,3,0)
-		print("[MANIPULATION] Fourth Pose Completed")
-		move_sherlock_arm(math.pi/2,0,-3,3,0)
-		print("[MANIPULATION] Fifth Pose Completed")
+		print("[SCANNING] First Pose Completed")
+		move_sherlock_arm(-math.pi,0,-3,3,0)
+		print("[SCANNING] Second Pose Completed")
 		###THEN EXTEND THE ARM AND SCAN THE TOP AREA###
 		move_sherlock_arm(-math.pi,0,0,0,-math.pi/4)
-		print("[MANIPULATION] Sixth Pose Completed")
-		move_sherlock_arm(-math.pi/2,0,0,0,-math.pi/4)
-		print("[MANIPULATION] Seventh Pose Completed")
+		print("[SCANNING] Third Pose Completed")
 		move_sherlock_arm(0,0,0,0,-math.pi/4)
-		print("[MANIPULATION] Eighth Pose Completed")
+		print("[SCANNING] Fourth Pose Completed")
 		move_sherlock_arm(math.pi/2,0,0,0,-math.pi/4)
-		print("[MANIPULATION] Nineth Pose Completed")
-		return 'acquiring_hints'
+		print("[SCANNING] Fiveth Pose Completed")
+		return 'check_hp'
 		
 #CHECK HYPOTHESIS STATE
-#class Check_Hypothesis(smach.State):
-#	def __init__(self):
-	#	"""
-		
-	#	"""
-	#def execute(self,userdata):
+class Check_Hypothesis(smach.State):
+	"""
+	Finished the acquistion state it is now time to understand if Sherlock has collect
+	new consistent and complete hypothesis.
+	If yes in the next state Sherlock has to go in the centre of the arena to ask to the
+	oracle if the hypothesis collected is the solution.
+	If no consistent and complete hypotheses has been collected then go to another room
+	and acquire other hints
+	"""
+	def __init__(self):
+		#Initialize smach state declaring outcomes
+		smach.State.__init__(self, outcomes=['try_hp','continue_to_acquire'])
+	def execute(self,userdata):
+		global already_acquired_hp, complete_consistent_hp, hypotheses
+		new_complete_consistent_hp = False
+		print("This is the list of all acquired hypotheses: \n")
+		for i in range (6):
+			hp = "ID {0}: The killer is {1} using {2} in {3}".format(i,hypotheses[i].killer,hypotheses[i].killer_weapon,hypotheses[i].killer_location)
+			print(hp)
+			#Check if hypotheses are consistent simply checking the number of instance present in the hypotheses fields
+			if(len(hypotheses[i].killer)==1 and len(hypotheses[i].killer_location)==1 and len(hypotheses[i].killer_weapon)==1):
+				complete_consistent_hp[i]  = True
+				if already_acquired_hp[i] == False:
+					already_acquired_hp[i] = True
+					new_complete_consistent_hp = True
+			else:
+				complete_consistent_hp[i]  = False
+				
+		if new_complete_consistent_hp == True:
+			print('New complete and consistent hypothesis acquired')
+			print('Go to the Oracle to test it!...')
+			return 'try_hp'
+		else:
+			print('No new complete and consistent hypothesis acquired')
+			return 'continue_to_acquire'
 		
 		
 #TELL HYPOTHESIS STATE
-#class Tell_Hypothesis(smach.State):
-#	def __init__(self):
-	#	"""
+class Tell_Hypothesis(smach.State):
+	"""
+	If this state is executed means that Sherlock has collected a new complete and consistent hypothesis.
+	Then lets go in the centre of the arena to ask to the Oracle the solution ID and compare with this new hp ID.
+	If the new hypothesis is the true one the investigation is finished.
+	Otherwise go to another room to acquire other hints.
+	"""
+	def __init__(self):
+		#Initialization of the smach state declaring the outcomes
+		smach.State.__init__(self, outcomes=['wrong_hp','correct_hp'])
+	def execute(self,userdata):
+		global oracle_solution_client,centre_arena, cmd_vel_publisher, complete_consistent_hp
+		is_correct_hp = False
+		solution_ID = None
 		
-	#	"""
-	#def execute(self,userdata):
+		#Go in the centre of the Arena
+		print('[NAVIGATION] I am going in the centre of the Arena')
+		move_base_client = actionlib.SimpleActionClient('move_base', move_base_msgs.msg.MoveBaseAction)
+		go_to=move_base_msgs.msg.MoveBaseActionGoal()
+		go_to.goal.target_pose.header.frame_id = "odom"
+		go_to.goal.target_pose.pose.position.x = centre_arena.x
+		go_to.goal.target_pose.pose.position.y = centre_arena.y
+		go_to.goal.target_pose.pose.orientation.w = 1
+        
+		move_base_client.wait_for_server()
+		move_base_client.send_goal(go_to.goal)
+		reached = False
+		while reached == False:
+			distance = euler_dist(centre_arena,sherlock_pos)
+			if distance <= .15:
+				reached = True
+				print("I have reached the centre of the arena")
+				#since probably sherlock has no  perfectly reached the room
+				#cancel the goal
+				move_base_client.cancel_all_goals()
+				#Stop Sherlock
+				velocity = Twist()
+				velocity.linear.x = 0
+				velocity.angular.z = 0
+				cmd_vel_publisher.publish(velocity)
+				time.sleep(.5)
+			time.sleep(.1)
 		
+		#Ask the oracle solution and compare it with the new complete and consistent hp 
+		oracle_solution_response = oracle_solution_client()
+		for i in range (6):
+			if ((complete_consistent_hp[i] == True) and (i==oracle_solution_response.ID)):
+				is_correct_hp = True
+				solution_ID = i
+		if is_correct_hp:
+			print("Solution found")
+			print("The true hypothesis is:" + str(solution_ID))
+			print("The investigation is finished")
+			return 'correct_hp'
+		else:
+			print("No the solution is wrong!!")
+			print("You have to acquire other hints and come back to me")
+			return 'wrong_hp'
 		
 
 def main():
@@ -377,7 +464,7 @@ def main():
 	Create a client for move the arm's joints
 	Create the SMACH state machine and define the outcomes of FSM as CASE_SOLVED
 	"""
-	global move_arm_client, cmd_vel_publisher, hypotheses, hint_gen_client
+	global move_arm_client, cmd_vel_publisher, hypotheses, hint_gen_client, oracle_solution_client
 	rospy.init_node('cluedo_investigation_FSM')
 	
 	##Check the availability of services
@@ -436,15 +523,15 @@ def main():
 								transitions={'search_hypotheses':'ACQUIRE_HINTS'}) 
 
 		smach.StateMachine.add('ACQUIRE_HINTS', Acquire_Hints(), 
-								transitions={'acquiring_hints':'CASE_SOLVED'})
+								transitions={'check_hp':'CHECK_HYPOTHESIS'})
 
-		#smach.StateMachine.add('CHECK_HYPOTHESIS', Check_Hypothesis(), 
-			#					transitions={'new_hypothesis':'TELL_HYPOTHESIS', 
-				#							'no_new_hypothesis':'GO_TO_ROOM'})
+		smach.StateMachine.add('CHECK_HYPOTHESIS', Check_Hypothesis(), 
+								transitions={'try_hp':'TELL_HYPOTHESIS', 
+											'continue_to_acquire':'GO_TO_ROOM'})
 		
-	#	smach.StateMachine.add('TELL_HYPOTHESIS', Tell_Hypothesis(), 
-		#						transitions={'incorrect_hypothesis':'GO_TO_ROOM', 
-			#								'correct_hypothesis':'CASE_SOLVED'})
+		smach.StateMachine.add('TELL_HYPOTHESIS', Tell_Hypothesis(), 
+								transitions={'wrong_hp':'GO_TO_ROOM', 
+											'correct_hp':'CASE_SOLVED'})
                                             
 	##Create and start the introspection server for visualization
 	sis = smach_ros.IntrospectionServer('server_name', sm, '/SM_ROOT')
