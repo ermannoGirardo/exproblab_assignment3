@@ -45,16 +45,16 @@ The assignment is composed by three main packages:
 
 
 ## IV. All you need
-## SERVICES
+### SERVICES
 * **move_arm.py** is the node demanded to move Sherlock arm. Thanks to MoveIt! this node simply take the joints configuration wanted and then 
             planning the trajectory (in joint space) thanks to Sherlock MoveIt! pkg ad hoc developed. Service on /move_arm_service
 * **final_oracle** The Oracle node (already implemented), provides an hint on the basis of the acquired ArUco marker ID. The Oracle knows also the final solution ID, that Sherlock has to collect during the game
 *  **marker_publisher** is the node demanded to manage the input video acquired by Sherlock cam, in order to detect Markers and thanks to ArUco dictionary ( ARUCO_MIP_36h12) is possible to trace its ID. A publisher was added to shared the ID.
 
-## FSM
+### FSM
 * **cluedo_investigation_FSM** is the core of the architecture. This node menage all the investigation behaviour, initialization of the investigation, menagement of all the acquired hypotheses (ontology), Sherlock navigation and manipulation to scan the environment
 
-## Launch Files
+### Launch Files
 * sherlock_assignment3/launch/**demo_gazebo.launch** is demanded to execute all the moveit plugins and controllers for the arm and spawns Sherlock into the predefined Gazebo scene. It also executes the **simulation.launch** file already developed to execute the **simulation.cpp** file already developed to source the Oracle node.
 * exp_assignment3/launch/**navigation.launch** is demanded to source the parameter files for move_base pkg, implementing an autonomous navigation thanks to its planner. This launch file also executes the gmapping pkg, that provides laser-based SLAM (Simultaneous Localization and Mapping).
 * exp_assignment3/launch/**services.launch** is demanded to execute the above lauch file, smach viewer, move_arm and the marker_publisher nodes. 
@@ -62,7 +62,7 @@ The assignment is composed by three main packages:
 ### Documentation
 It is also present Doxygen documentation for exp_assignemnt3. In particular you can find docs folder with html file
  
-## SEQUENCE DIAGRAM 
+### SEQUENCE DIAGRAM 
 
 ## V. How to run the simulation
 * If you are not familiar with ROSPlan, I suggest you to see its GitHub page and download it --> [ROSPlan](https://github.com/KCL-Planning/ROSPlan).
