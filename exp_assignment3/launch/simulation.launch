@@ -48,7 +48,7 @@
     <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>
   </group>
   
-  <node name="final_oracle" pkg ="exp_assignment3" type="final_oracle" output="screen" /> 
+  <node name="the_oracle" pkg ="exp_assignment3" type="final_oracle" output="screen" /> 
   
   <!-- push robot_description to factory and spawn robot in gazebo at the origin, change x,y,z arguments to spawn in a different position -->
   <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot -x 0 -y -1 -z 0" respawn="false" output="screen" />

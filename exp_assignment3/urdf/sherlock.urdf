@@ -140,13 +140,13 @@
             <camera name="head">
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
-                    <width>2500</width>
-                    <height>2500</height>
+                    <width>5000</width>
+                    <height>500</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
                     <near>0.02</near>
-                    <far>350</far>
+                    <far>300</far>
                 </clip>
                 <noise>
                     <type>gaussian</type>
@@ -327,7 +327,7 @@
     </link>
     <joint name="arm_base_to_base" type="revolute">
         <axis xyz="0 0 1" />
-        <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="0.2" />
+        <limit effort="1000.0" lower="-3.14" upper="3.14" velocity=".5" />
         <origin rpy="0 0 0" xyz="0 0 0.085" />
         <parent link="base_link" />
         <child link="arm_base_link" />
@@ -356,7 +356,7 @@
     </link>
     <joint name="arm_joint_01" type="revolute">
         <axis xyz="1 0 0" />
-        <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.2" />
+        <limit effort="1000.0" lower="-1.57" upper="1.57" velocity=".5" />
         <origin rpy="0 0 0" xyz="0 0 0.05" />
         <parent link="arm_base_link" />
         <child link="arm_link_01" />
@@ -385,7 +385,7 @@
     </link>
     <joint name="arm_joint_02" type="revolute">
         <axis xyz="1 0 0" />
-        <limit effort="1000.0" lower="-3" upper="3" velocity="0.2" />
+        <limit effort="1000.0" lower="-3" upper="3" velocity=".5" />
         <origin rpy="0 0 0" xyz="0 0 0.5" />
         <parent link="arm_link_01" />
         <child link="arm_link_02" />
@@ -414,7 +414,7 @@
     </link>
     <joint name="arm_joint_03" type="revolute">
         <axis xyz="1 0 0" />
-        <limit effort="1000.0" lower="-3" upper="3" velocity="0.2" />
+        <limit effort="1000.0" lower="-3" upper="3" velocity=".5" />
         <origin rpy="0 0 0" xyz="0 0 0.5" />
         <parent link="arm_link_02" />
         <child link="arm_link_03" />
@@ -443,7 +443,7 @@
     </link>
     <joint name="arm_joint_04" type="revolute">
         <axis xyz="1 0 0" />
-        <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.2" />
+        <limit effort="1000.0" lower="-1.57" upper="1.57" velocity=".5" />
         <origin rpy="0 0 0" xyz="0 0 0.5" />
         <parent link="arm_link_03" />
         <child link="cluedo_link" />

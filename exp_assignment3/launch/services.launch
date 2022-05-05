@@ -5,19 +5,14 @@
 	
 	<!-- Launch the move_arm service node -->
 	<node name="move_arm" pkg="exp_assignment3" type ="move_arm.py"/>
-	
-	<!-- Launch the oracle node -->
-	<node name="the_oracle" pkg ="exp_assignment3" type="final_oracle" />
+
 	
 	<!-- Launch the marker publisher -->
 	<node name="marker_publisher" pkg ="aruco_ros" type="marker_publisher" args="/image:=/robot/camera1/image_raw"/>
 
-	<!-- Launch the move_arm service node 
-	<node name="clueso_FSM" pkg="exp_assignment3" type ="cluedo_investigation_FSM.py" output="screen" />-->
-
-
+	
 	<!-- SLAM GMAPPING-->
-    	<include file="$(find exp_assignment3)/launch/slam_gmapping.launch" />
+    	<include file="$(find exp_assignment3)/launch/navigation.launch" />
 
 
 </launch>
