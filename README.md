@@ -84,7 +84,7 @@ roslaunch exp_assignment3 services.launch
 
 ### Into your ws, go to the py file and mark it as exe
 ```
-roscd exp_assignment3
+roscd exp_assignment3/scripts
 ```
 
 ```
