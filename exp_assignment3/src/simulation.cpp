@@ -44,8 +44,8 @@ bool oracleCallback(exp_assignment3::Marker::Request &req, exp_assignment3::Mark
 	}
 	else{
 		res.oracle_hint.ID = -1;
-		res.oracle_hint.key = "ICannotSeeVeryWell";
-		res.oracle_hint.value = -1;
+		res.oracle_hint.key = "ICan'tSeeStraight";
+		res.oracle_hint.value = "-1";
 	}
 	return true;
 } 

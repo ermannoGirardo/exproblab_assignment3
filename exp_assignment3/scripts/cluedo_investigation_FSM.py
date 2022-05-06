@@ -218,8 +218,7 @@ def acquired_hint_clbk(markerId):
 			
 		#From the second hint forward check that the actual hint ID is different from the previous one
 		if ((markerId.data != previous_marker) and (not first_hint)):
-			print("New hint acquired from Marker:" + str(markerId.data))
-			print("ID:" + str(acquired_hint.ID) + " Key:" + str(acquired_hint.key) + " Value:" + str(acquired_hint.value))
+			print("ID:" + str(acquired_hint.ID) + " Key:" + str(acquired_hint.key) + " Value:" + str(acquired_hint.value) + "  From Marker ID:" + str(markerId.data))
 			previous_marker = markerId.data
 
 	else:
