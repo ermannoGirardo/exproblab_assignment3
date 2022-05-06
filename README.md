@@ -72,6 +72,8 @@ Figure 3: Component Diagram of the Architecture
 ### SMACH VIEWER FSM
 
 
+![SmachViewer](https://user-images.githubusercontent.com/48509825/167166652-bdaa1ec6-6aaf-4814-aece-0da09b24a11c.jpeg)
+
 
 Figure 4: Smach Viewer FSM of the cluedo investigation
 
