@@ -30,7 +30,14 @@ Sherlock is able to autonomously navigate in the sourrounding environment, thank
 
 ![MapAss3](https://user-images.githubusercontent.com/48509825/167033061-827f5d9b-28bf-4cd9-ac57-6d41274e20f4.png)
 
-Figure 1: Sherlock3 in the map
+Figure 1: Sherlock3 in the map Gazebo Simulator
+
+
+![MapRvizAss3](https://user-images.githubusercontent.com/48509825/167140201-b8728c19-7d78-474e-bc01-6d8704cf74d0.jpeg)
+
+
+Figure 2: Sherlock3 in the map RVIZ Simulator
+
 
 
 ## III. SW Architecture
@@ -46,7 +53,7 @@ The assignment is composed by three main packages:
 
 ![Architecture](https://user-images.githubusercontent.com/48509825/167031589-22283940-e1c2-41ea-9fa4-18a376f002a2.png)
 
-Figure 2: Component Diagram of the Architecture
+Figure 3: Component Diagram of the Architecture
 
 
 
@@ -54,7 +61,8 @@ Figure 2: Component Diagram of the Architecture
 ## IV. All you need
 ### SERVICES
 * **move_arm.py** is the node demanded to move Sherlock arm. Thanks to MoveIt! this node simply take the joints configuration wanted and then 
-            planning the trajectory (in joint space) thanks to Sherlock MoveIt! pkg ad hoc developed. Service on /move_arm_service
+            planning the trajectory (in joint space) thanks to Sherlock MoveIt! pkg ad hoc developed. Service on /move_arm_service.
+            In particular this is possible thanks to LIDAR sensor placed on top of the based that publishes on topic /scan.
 * **final_oracle.cpp** The Oracle node (already implemented), provides an hint on the basis of the acquired ArUco marker ID. The Oracle knows also the final solution ID, that Sherlock has to collect during the game
 *  **marker_publisher.cpp** is the node demanded to manage the input video acquired by Sherlock cam, in order to detect Markers and thanks to ArUco dictionary ( ARUCO_MIP_36h12) is possible to trace its ID. A publisher was added to shared the ID.
 
@@ -65,7 +73,7 @@ Figure 2: Component Diagram of the Architecture
 
 
 
-Figure 3: Smach Viewer FSM of the cluedo investigation
+Figure 4: Smach Viewer FSM of the cluedo investigation
 
 ### Launch Files
 * sherlock_assignment3/launch/**demo_gazebo.launch** is demanded to execute all the moveit plugins and controllers for the arm and spawns Sherlock into the predefined Gazebo scene. It also executes the **simulation.launch** file already developed to execute the **simulation.cpp** file to source the Oracle node.
@@ -81,7 +89,7 @@ It is also present Doxygen documentation for exp_assignemnt3. In particular you 
 
 ![Sequence](https://user-images.githubusercontent.com/48509825/167031691-3420e141-315c-4abc-abaa-834f3ae33295.png)
 
-Figure 4: Sequence Diagram of the investigation
+Figure 5: Sequence Diagram of the investigation
 
 ## V. How to run the simulation
 * If you are not familiar with ROSPlan, I suggest you to see its GitHub page and download it --> [ROSPlan](https://github.com/KCL-Planning/ROSPlan).
