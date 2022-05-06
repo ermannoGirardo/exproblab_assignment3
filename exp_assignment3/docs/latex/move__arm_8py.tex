@@ -1,0 +1,58 @@
+\hypertarget{move__arm_8py}{}\doxysection{scripts/move\+\_\+arm.py File Reference}
+\label{move__arm_8py}\index{scripts/move\_arm.py@{scripts/move\_arm.py}}
+
+
+provide a service to move the robot arm  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{move__arm_8py_ad956f4d9ce38cdb9d04b4109b915d42b}{move\+\_\+arm.\+move\+\_\+arm\+\_\+clbk}} (req)
+\item 
+def \mbox{\hyperlink{move__arm_8py_a72318eb33322ccf68519f5e6b9397729}{move\+\_\+arm.\+main}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{move__arm_8py_ac15637314272dcf66c692bb5c53dc05d}\label{move__arm_8py_ac15637314272dcf66c692bb5c53dc05d}} 
+{\bfseries move\+\_\+arm.\+arm\+\_\+group} = None
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+provide a service to move the robot arm 
+
+\begin{DoxyAuthor}{Author}
+Ermanno Girardo 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+5/05/2022
+\end{DoxyDate}
+Services\+: ~\newline
+ /move\+\_\+arm\+\_\+service
+
+Description\+: ~\newline
+
+
+Thanks to Move\+It! it is possible to move the arm in an easy way. In particular in this case the motion is guaranteed by FK setting manually the arm\textquotesingle{}s joints values 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{move__arm_8py_a72318eb33322ccf68519f5e6b9397729}\label{move__arm_8py_a72318eb33322ccf68519f5e6b9397729}} 
+\index{move\_arm.py@{move\_arm.py}!main@{main}}
+\index{main@{main}!move\_arm.py@{move\_arm.py}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily def move\+\_\+arm.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}main of the move_arm node\end{DoxyVerb}
+ \mbox{\Hypertarget{move__arm_8py_ad956f4d9ce38cdb9d04b4109b915d42b}\label{move__arm_8py_ad956f4d9ce38cdb9d04b4109b915d42b}} 
+\index{move\_arm.py@{move\_arm.py}!move\_arm\_clbk@{move\_arm\_clbk}}
+\index{move\_arm\_clbk@{move\_arm\_clbk}!move\_arm.py@{move\_arm.py}}
+\doxysubsubsection{\texorpdfstring{move\_arm\_clbk()}{move\_arm\_clbk()}}
+{\footnotesize\ttfamily def move\+\_\+arm.\+move\+\_\+arm\+\_\+clbk (\begin{DoxyParamCaption}\item[{}]{req }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Callback of the move_arm_service.\end{DoxyVerb}
+ 

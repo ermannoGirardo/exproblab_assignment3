@@ -1,0 +1,196 @@
+\hypertarget{cluedo__investigation___f_s_m_8py}{}\doxysection{scripts/cluedo\+\_\+investigation\+\_\+\+F\+SM.py File Reference}
+\label{cluedo__investigation___f_s_m_8py}\index{scripts/cluedo\_investigation\_FSM.py@{scripts/cluedo\_investigation\_FSM.py}}
+
+
+This node provides the finite state machine.  
+
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcluedo__investigation___f_s_m_1_1_hypotheses}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+Hypotheses}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classcluedo__investigation___f_s_m_1_1_hypotheses}{Hypotheses}} class\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcluedo__investigation___f_s_m_1_1_init}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+Init}}
+\begin{DoxyCompactList}\small\item\em S\+M\+A\+CH F\+I\+N\+I\+TE S\+T\+A\+TE M\+A\+C\+H\+I\+NE\#\#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcluedo__investigation___f_s_m_1_1_go___to___room}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+Go\+\_\+\+To\+\_\+\+Room}}
+\item 
+class \mbox{\hyperlink{classcluedo__investigation___f_s_m_1_1_acquire___hints}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+Acquire\+\_\+\+Hints}}
+\item 
+class \mbox{\hyperlink{classcluedo__investigation___f_s_m_1_1_check___hypothesis}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+Check\+\_\+\+Hypothesis}}
+\item 
+class \mbox{\hyperlink{classcluedo__investigation___f_s_m_1_1_tell___hypothesis}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+Tell\+\_\+\+Hypothesis}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{cluedo__investigation___f_s_m_8py_a21e2dbcf08c722548a061c2af92eb78d}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+euler\+\_\+dist}} (point\+\_\+1, point\+\_\+2)
+\item 
+def \mbox{\hyperlink{cluedo__investigation___f_s_m_8py_a86f83b3f635216dff4ae1c90d173eedd}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+move\+\_\+sherlock\+\_\+arm}} (j1, j2, j3, j4, j5)
+\item 
+def \mbox{\hyperlink{cluedo__investigation___f_s_m_8py_a99173d804d80a9af1c7a921c8d8034fb}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+odom\+\_\+clbk}} (odom\+\_\+msg)
+\item 
+def \mbox{\hyperlink{cluedo__investigation___f_s_m_8py_afb8f5b2800b4a18464dfe5566b0f09ad}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+acquired\+\_\+hint\+\_\+clbk}} (marker\+Id)
+\item 
+def \mbox{\hyperlink{cluedo__investigation___f_s_m_8py_a56dafbef112f2511eae5cdc3dbd33b72}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+main}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a2734f79a630597ec63c8ceee5149f2cb}\label{cluedo__investigation___f_s_m_8py_a2734f79a630597ec63c8ceee5149f2cb}} 
+\mbox{\hyperlink{cluedo__investigation___f_s_m_8py_a2734f79a630597ec63c8ceee5149f2cb}{cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+move\+\_\+arm\+\_\+client}} = None
+\begin{DoxyCompactList}\small\item\em G\+L\+O\+B\+AL V\+A\+R\+I\+A\+B\+L\+ES. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a21a61ef3c80c72bbe8f761ef0fb6bff6}\label{cluedo__investigation___f_s_m_8py_a21a61ef3c80c72bbe8f761ef0fb6bff6}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+sherlock\+\_\+pos} = Point()
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a9905d0fe4b0a5cce8724f9a4119b3170}\label{cluedo__investigation___f_s_m_8py_a9905d0fe4b0a5cce8724f9a4119b3170}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+room1} = Point()
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a8905990d7a1693a5b5c89a7fc62d1d8f}\label{cluedo__investigation___f_s_m_8py_a8905990d7a1693a5b5c89a7fc62d1d8f}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+x}
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a24e147c2bdcbfa4b7ff3e1dd59c3d11f}\label{cluedo__investigation___f_s_m_8py_a24e147c2bdcbfa4b7ff3e1dd59c3d11f}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+y}
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_af33a993807b1c5937cabef615ae760c7}\label{cluedo__investigation___f_s_m_8py_af33a993807b1c5937cabef615ae760c7}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+room2} = Point()
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_afbd03907ae7054ea1bb9193a526325d3}\label{cluedo__investigation___f_s_m_8py_afbd03907ae7054ea1bb9193a526325d3}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+room3} = Point()
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a472245ec599ba3c0402771988f9b5108}\label{cluedo__investigation___f_s_m_8py_a472245ec599ba3c0402771988f9b5108}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+room4} = Point()
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a060c7d63813f1898806f5cb5e0c66c97}\label{cluedo__investigation___f_s_m_8py_a060c7d63813f1898806f5cb5e0c66c97}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+room5} = Point()
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_adaff2ec0922466636c47141e4748dfc1}\label{cluedo__investigation___f_s_m_8py_adaff2ec0922466636c47141e4748dfc1}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+room6} = Point()
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a44398f3b82b61e369e07aebb235ffc89}\label{cluedo__investigation___f_s_m_8py_a44398f3b82b61e369e07aebb235ffc89}} 
+list {\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+rooms} = \mbox{[}room1,room2,room3,room4,room5,room6\mbox{]}
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_aa1e411ea7dfd384516ab50c02c51eb60}\label{cluedo__investigation___f_s_m_8py_aa1e411ea7dfd384516ab50c02c51eb60}} 
+int {\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+room\+\_\+counter} = 0
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a3cb61f58d61610579a019c6a25ccc4c6}\label{cluedo__investigation___f_s_m_8py_a3cb61f58d61610579a019c6a25ccc4c6}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+centre\+\_\+arena} = Point()
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a71fcccc4346861fda4f9c8c61576c094}\label{cluedo__investigation___f_s_m_8py_a71fcccc4346861fda4f9c8c61576c094}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+cmd\+\_\+vel\+\_\+publisher} = None
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a9ab710295a0e4e30c52be4b975a8e22c}\label{cluedo__investigation___f_s_m_8py_a9ab710295a0e4e30c52be4b975a8e22c}} 
+bool {\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+all\+\_\+room\+\_\+visited} = False
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_ab81bbbed45f9bd131853afc27c0f2439}\label{cluedo__investigation___f_s_m_8py_ab81bbbed45f9bd131853afc27c0f2439}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+hint\+\_\+gen\+\_\+client} = None
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_acfee1ee86f01e439f5be964fc45f7a84}\label{cluedo__investigation___f_s_m_8py_acfee1ee86f01e439f5be964fc45f7a84}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+oracle\+\_\+solution\+\_\+client} = None
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a11b11767bfae299e3d058d1446cb9156}\label{cluedo__investigation___f_s_m_8py_a11b11767bfae299e3d058d1446cb9156}} 
+int {\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+number\+\_\+acquired\+\_\+hint} = 0
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a273a5eb3d5a0f81b24d599dfd6572dd9}\label{cluedo__investigation___f_s_m_8py_a273a5eb3d5a0f81b24d599dfd6572dd9}} 
+{\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+previous\+\_\+marker} = None
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a0fff2a96063b8cb3e84df840578d0bc6}\label{cluedo__investigation___f_s_m_8py_a0fff2a96063b8cb3e84df840578d0bc6}} 
+bool {\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+first\+\_\+hint} = True
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_ad07ac848e60d9c85cc70633bcdea503d}\label{cluedo__investigation___f_s_m_8py_ad07ac848e60d9c85cc70633bcdea503d}} 
+list {\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+hypotheses} = \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_adffaec6b393d547d4356823f0e38061a}\label{cluedo__investigation___f_s_m_8py_adffaec6b393d547d4356823f0e38061a}} 
+list {\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+already\+\_\+acquired\+\_\+hp} = \mbox{[}False,False,False,False,False,False\mbox{]}
+\item 
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_adb1e8d345780bd9d617a97d1ae27c9b3}\label{cluedo__investigation___f_s_m_8py_adb1e8d345780bd9d617a97d1ae27c9b3}} 
+list {\bfseries cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+complete\+\_\+consistent\+\_\+hp} = \mbox{[}False,False,False,False,False,False\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This node provides the finite state machine. 
+
+\begin{DoxyAuthor}{Author}
+Ermanno Girardo 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+5/5/2022
+\end{DoxyDate}
+Clients \+: ~\newline
+ /move\+\_\+arm\+\_\+service
+
+/oracle\+\_\+hint
+
+/oracle\+\_\+solution
+
+Subscribers \+: ~\newline
+ /odom /acquired\+\_\+hint
+
+Publishers \+: ~\newline
+ /cmd\+\_\+vel
+
+Actions \+: ~\newline
+ /\+Move\+Base\+Action
+
+Description\+:
+
+This node is the core of the architecture. It is based on a smach F\+SM that menage all behaviour of the cluedo investigation. In particular it first initializes the investigation, extending Sherlock\textquotesingle{}s arm thanks to move arm service. Thanks to move base action and S\+L\+A\+M\+\_\+\+G\+M\+A\+P\+P\+I\+NG it menages Sherlock navigation between rooms. Ad Hoc class for acquiring hints and manage the hypotheses is used. This node also takes the ID of detected marker and send it to the oracle that will respond with an hint message. Once an hypothesis is completed and consistent Sherlock has to go in the centre of the arena in order to tell the acquired hypothesis. If the hypothesis is the true one the investigation is finished otherwise Sherlock come back to travel between rooms. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_afb8f5b2800b4a18464dfe5566b0f09ad}\label{cluedo__investigation___f_s_m_8py_afb8f5b2800b4a18464dfe5566b0f09ad}} 
+\index{cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}!acquired\_hint\_clbk@{acquired\_hint\_clbk}}
+\index{acquired\_hint\_clbk@{acquired\_hint\_clbk}!cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}}
+\doxysubsubsection{\texorpdfstring{acquired\_hint\_clbk()}{acquired\_hint\_clbk()}}
+{\footnotesize\ttfamily def cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+acquired\+\_\+hint\+\_\+clbk (\begin{DoxyParamCaption}\item[{}]{marker\+Id }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}This function manages the marker id, once it is received.
+In particular the markerID is passed to the '/oracle_hint' service,
+that reply with the hint structure filled (ID, key and value).
+Once the data of the hint are available update the ontology.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a21e2dbcf08c722548a061c2af92eb78d}\label{cluedo__investigation___f_s_m_8py_a21e2dbcf08c722548a061c2af92eb78d}} 
+\index{cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}!euler\_dist@{euler\_dist}}
+\index{euler\_dist@{euler\_dist}!cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}}
+\doxysubsubsection{\texorpdfstring{euler\_dist()}{euler\_dist()}}
+{\footnotesize\ttfamily def cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+euler\+\_\+dist (\begin{DoxyParamCaption}\item[{}]{point\+\_\+1,  }\item[{}]{point\+\_\+2 }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}This function compute the euler distance between two points
+\end{DoxyVerb}
+ \mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a56dafbef112f2511eae5cdc3dbd33b72}\label{cluedo__investigation___f_s_m_8py_a56dafbef112f2511eae5cdc3dbd33b72}} 
+\index{cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}!main@{main}}
+\index{main@{main}!cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily def cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Body of the main function
+Initialize the node as cluedo_FSM
+Wait for the services
+Create a client for ask to the oracle the solution
+Create a client for receive an hint
+Create a client for move the arm's joints
+Create the SMACH state machine and define the outcomes of FSM as CASE_SOLVED
+\end{DoxyVerb}
+ \mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a86f83b3f635216dff4ae1c90d173eedd}\label{cluedo__investigation___f_s_m_8py_a86f83b3f635216dff4ae1c90d173eedd}} 
+\index{cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}!move\_sherlock\_arm@{move\_sherlock\_arm}}
+\index{move\_sherlock\_arm@{move\_sherlock\_arm}!cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}}
+\doxysubsubsection{\texorpdfstring{move\_sherlock\_arm()}{move\_sherlock\_arm()}}
+{\footnotesize\ttfamily def cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+move\+\_\+sherlock\+\_\+arm (\begin{DoxyParamCaption}\item[{}]{j1,  }\item[{}]{j2,  }\item[{}]{j3,  }\item[{}]{j4,  }\item[{}]{j5 }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}This function is used to move Sherlock arm thanks to move_arm_service
+In particular it instanciate the request of the service and simply fill
+all the values passed as params
+\end{DoxyVerb}
+ \mbox{\Hypertarget{cluedo__investigation___f_s_m_8py_a99173d804d80a9af1c7a921c8d8034fb}\label{cluedo__investigation___f_s_m_8py_a99173d804d80a9af1c7a921c8d8034fb}} 
+\index{cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}!odom\_clbk@{odom\_clbk}}
+\index{odom\_clbk@{odom\_clbk}!cluedo\_investigation\_FSM.py@{cluedo\_investigation\_FSM.py}}
+\doxysubsubsection{\texorpdfstring{odom\_clbk()}{odom\_clbk()}}
+{\footnotesize\ttfamily def cluedo\+\_\+investigation\+\_\+\+F\+S\+M.\+odom\+\_\+clbk (\begin{DoxyParamCaption}\item[{}]{odom\+\_\+msg }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}The odom callback is used to update Sherlock position.
+In particular the x and y position of Sherlock are updated 
+into local variables visible to all modules
+\end{DoxyVerb}
+ 
