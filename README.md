@@ -1,4 +1,4 @@
-# # Experimental Robotics Lab Assignment 3:
+# Experimental Robotics Lab Assignment 3:
 ## I. Cluedo investigation
 
 ![Cluedo_Map](https://user-images.githubusercontent.com/48509825/161590960-7892a0c4-97c4-4b8c-9630-f4886926a472.jpg)
