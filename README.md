@@ -64,7 +64,7 @@ Figure 3: Component Diagram of the Architecture
             planning the trajectory (in joint space) thanks to Sherlock MoveIt! pkg ad hoc developed. Service on /move_arm_service.
             In particular this is possible thanks to LIDAR sensor placed on top of the based that publishes on topic /scan.
 * **final_oracle.cpp** The Oracle node (already implemented), provides an hint on the basis of the acquired ArUco marker ID. The Oracle knows also the final solution ID, that Sherlock has to collect during the game
-*  **marker_publisher.cpp** is the node demanded to manage the input video acquired by Sherlock cam, in order to detect Markers and thanks to ArUco dictionary ( ARUCO_MIP_36h12) is possible to trace its ID. A publisher was added to shared the ID.
+*  **marker_publisher.cpp** is the node demanded to manage the input video acquired by Sherlock cam, in order to detect Markers and thanks to ArUco dictionary ( ARUCO_MIP_36h12) is possible to trace its ID. A publisher was added to shared the ID on the topic /acquired_hint.
 
 ### FSM
 * **cluedo_investigation_FSM.py** is the core of the architecture. This node menages all the investigation behaviour, initialization of the investigation, menagement of all the acquired hypotheses (ontology), Sherlock navigation and manipulation to scan the environment
