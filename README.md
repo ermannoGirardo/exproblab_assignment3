@@ -94,7 +94,6 @@ It is also present Doxygen documentation for exp_assignemnt3. In particular you 
 Figure 5: Sequence Diagram of the investigation
 
 ## V. How to run the simulation
-* If you are not familiar with ROSPlan, I suggest you to see its GitHub page and download it --> [ROSPlan](https://github.com/KCL-Planning/ROSPlan).
 * You have to clone this repository into your ros workspace:
 ```
 git clone https://github.com/ermannoGirardo/exproblab_assignment3
