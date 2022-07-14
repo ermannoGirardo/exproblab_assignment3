@@ -40,6 +40,10 @@ Figure 2: Sherlock3 in the map RVIZ Simulator
 
 
 
+
+
+![Ass3CompleteSuperFastCutted](https://user-images.githubusercontent.com/48509825/178994387-1aa7c0ce-ea77-484c-8c53-ec06289df689.gif)
+
 ## III. SW Architecture
 The assignment is composed by three main packages:
 
