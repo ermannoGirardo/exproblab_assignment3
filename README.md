@@ -151,7 +151,10 @@ So, first you have to install gnome terminal, if you haven't yet:
                   Also the manipulation is really low. The joint velocities for the arm are set as high as possible, under the breaking level of the motors. Maybe also the Docker image used to test the simulation has low performance and the speed of the simulation is slowed down.
 * **decrease the scanning time**: in order to decrease the time for the scanning state (hint acquisition) a possible solution could be to create a room class in order to track the number of already acquired hint in the room. Once 5 differents markers are detected in the same room exit from the acquired hint state. Another possible solution could be to do not equip Sherlock with an arm but using two different cameras in order to see both the markers on the walls and on the floor.
 
-## VIII About the Author
+## VIII Video 
+You can see the demonstrative video of the assignment clicking [Here!](https://unigeit-my.sharepoint.com/:v:/g/personal/s4506472_studenti_unige_it/ETeV38ODXPxCvVabvMKVHFIB8rkNP0JLQgRzEajugCelXg?e=Wr4LPE)
+
+## IX About the Author
 **Robotics Engineer** @Università degli Studi di Genova via Opera Pia. 
 **Phone number:** 3451552733
 **Email:** girardoermanno@gmail.com
