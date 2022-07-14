@@ -154,6 +154,8 @@ So, first you have to install gnome terminal, if you haven't yet:
 ## VIII Video 
 You can see the demonstrative video of the assignment clicking [Here!](https://unigeit-my.sharepoint.com/:v:/g/personal/s4506472_studenti_unige_it/ETeV38ODXPxCvVabvMKVHFIB8rkNP0JLQgRzEajugCelXg?e=Wr4LPE)
 
+You can find also the file into /exp_assignment3/**Ass3CompleteSuperFast**
+
 ## IX About the Author
 **Robotics Engineer** @Università degli Studi di Genova via Opera Pia. 
 **Phone number:** 3451552733
